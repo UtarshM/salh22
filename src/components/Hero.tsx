@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import heroHospitalImage from "../assets/hero-hospital.jpg";
 
 const Hero = () => {
   return (
@@ -12,7 +13,7 @@ const Hero = () => {
       >
         {/* We use an Unsplash image as a high-quality fallback if hero-hospital.jpg isn't placed yet by user */}
         <img 
-          src="/src/assets/hero-hospital.jpg"
+          src={heroHospitalImage}
           alt="Hospital Background"
           className="w-full h-full object-cover"
           onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=2053" }} 

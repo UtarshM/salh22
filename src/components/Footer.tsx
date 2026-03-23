@@ -1,4 +1,5 @@
 import { Phone, Mail, MapPin, Facebook, Instagram, Youtube, Twitter } from "lucide-react";
+import salLogo from "../assets/sal-logo-new.png";
 
 const Footer = () => (
   <footer id="contact" className="gradient-navy pt-16 pb-8">
@@ -8,7 +9,7 @@ const Footer = () => (
         <div>
           <div className="flex items-center gap-2 mb-3 bg-white p-2 rounded-xl inline-block">
             <img 
-              src="/src/assets/sal-logo-new.png" 
+              src={salLogo} 
               alt="SAL Hospital" 
               className="h-10 object-contain"
             />

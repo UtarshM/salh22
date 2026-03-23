@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Search, ChevronDown, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import salLogo from "../assets/sal-logo-new.png";
 
 const topNavItems = [
   { label: "ABOUT", href: "#about" },
@@ -52,7 +53,7 @@ const Header = () => {
           <div className="flex items-center justify-between lg:border-r border-gray-200 px-6 py-4 lg:py-2 w-full lg:w-64 flex-shrink-0">
             <a href="/" className="block">
               <img 
-                src="/src/assets/sal-logo-new.png" 
+                src={salLogo} 
                 alt="SAL Hospital" 
                 className="h-12 lg:h-14 w-auto object-contain"
                 onError={(e) => {
