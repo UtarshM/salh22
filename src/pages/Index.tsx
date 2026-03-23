@@ -6,6 +6,7 @@ import AccreditationStrip from "@/components/AccreditationStrip";
 import SpecialitiesGrid from "@/components/SpecialitiesGrid";
 import VisionCards from "@/components/VisionCards";
 import WhySAL from "@/components/WhySAL";
+import AnimatedSpecialities from "@/components/AnimatedSpecialities";
 import VideoSeries from "@/components/VideoSeries";
 import Testimonials from "@/components/Testimonials";
 import InsuranceTieUps from "@/components/InsuranceTieUps";
@@ -22,6 +23,7 @@ const Index = () => (
     <SpecialitiesGrid />
     <VisionCards />
     <WhySAL />
+    <AnimatedSpecialities />
     <VideoSeries />
     <Testimonials />
     <InsuranceTieUps />

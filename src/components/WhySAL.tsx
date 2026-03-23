@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Video, Calendar } from "lucide-react";
 import { motion } from "framer-motion";
-import consultation from "@/assets/consultation.jpg";
 
 const stats = [
   { value: 22, suffix: "+", label: "Years of Experience" },
@@ -10,7 +8,7 @@ const stats = [
   { value: 100000, suffix: "+", label: "Satisfied Patients" },
 ];
 
-const Counter = ({ target, suffix }: { target: number; suffix: string }) => {
+const Counter = ({ target, suffix, label, delay }: { target: number; suffix: string; label: string; delay: number }) => {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
   const started = useRef(false);
@@ -42,55 +40,30 @@ const Counter = ({ target, suffix }: { target: number; suffix: string }) => {
   }, [target]);
 
   return (
-    <div ref={ref} className="text-center">
-      <div className="text-3xl md:text-4xl font-bold text-primary-foreground">
+    <motion.div 
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay }}
+      ref={ref} 
+      className="bg-gray-100 rounded-2xl shadow-md px-6 py-8 flex flex-col items-center justify-center text-center transition-transform hover:-translate-y-2 hover:shadow-xl"
+    >
+      <div className="text-4xl md:text-5xl font-bold text-orange-500 mb-2">
         {count.toLocaleString()}{suffix}
       </div>
-      <div className="text-primary-foreground/70 text-sm mt-1">{stats.find(s => s.value === target)?.label}</div>
-    </div>
+      <div className="text-sal-navy font-semibold text-[15px]">{label}</div>
+    </motion.div>
   );
 };
 
 const WhySAL = () => (
-  <section className="gradient-navy py-20">
-    <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
-      <motion.img
-        initial={{ opacity: 0, x: -30 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        src={consultation}
-        alt="Doctor consultation"
-        className="rounded-2xl shadow-2xl w-full object-cover aspect-[4/3]"
-      />
-      <motion.div
-        initial={{ opacity: 0, x: 30 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-      >
-        <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
-          A Great Place For Medical Care
-        </h2>
-        <p className="text-primary-foreground/70 leading-relaxed mb-8">
-          SAL Hospital combines modern medical facilities with human touch. Gujarat's oldest
-          recognized healthcare destination, serving medical tourism from 50+ countries with
-          cutting-edge technology and compassionate care.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4">
-          <a href="#" className="btn-white">
-            <Video size={18} />
-            Online Consultation
-          </a>
-          <a href="#" className="btn-primary">
-            <Calendar size={18} />
-            Book Appointment
-          </a>
-        </div>
-      </motion.div>
-    </div>
-    <div className="container mx-auto px-6 mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">
-      {stats.map((s) => (
-        <Counter key={s.label} target={s.value} suffix={s.suffix} />
-      ))}
+  <section className="bg-white py-16 md:py-24 relative -mt-8 z-20">
+    <div className="container mx-auto px-4 md:px-8 max-w-6xl">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+        {stats.map((s, idx) => (
+          <Counter key={s.label} target={s.value} suffix={s.suffix} label={s.label} delay={idx * 0.1} />
+        ))}
+      </div>
     </div>
   </section>
 );
