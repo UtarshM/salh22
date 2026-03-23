@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 40% 20%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 40% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 40% 20%;
+
+    --primary: 224 55% 24%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 30% 96%;
+    --secondary-foreground: 224 55% 24%;
+
+    --muted: 220 20% 96%;
+    --muted-foreground: 220 10% 46%;
+
+    --accent: 4 65% 46%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 20% 90%;
+    --input: 220 20% 90%;
+    --ring: 224 55% 24%;
+
+    --radius: 0.75rem;
+
+    --sal-navy: 224 55% 24%;
+    --sal-red: 4 65% 46%;
+    --sal-gray: 220 20% 96%;
+    --sal-light: 220 30% 97%;
+    --sal-dark: 224 55% 14%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 224 55% 8%;
+    --foreground: 0 0% 95%;
+    --card: 224 55% 12%;
+    --card-foreground: 0 0% 95%;
+    --popover: 224 55% 12%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 224 55% 24%;
+    --secondary: 224 30% 18%;
+    --secondary-foreground: 0 0% 95%;
+    --muted: 224 30% 18%;
+    --muted-foreground: 220 10% 60%;
+    --accent: 4 65% 46%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 224 30% 20%;
+    --input: 224 30% 20%;
+    --ring: 0 0% 80%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .section-heading {
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold text-sal-navy relative inline-block pb-3;
+  }
+  .section-heading::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-16 h-1 bg-sal-red rounded-full;
+  }
+  .section-heading-center {
+    @apply section-heading text-center;
+  }
+  .section-heading-center::after {
+    @apply left-1/2 -translate-x-1/2;
+  }
+  .sal-card {
+    @apply bg-card rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden;
+  }
+  .btn-primary {
+    @apply bg-sal-red text-white px-8 py-3 rounded-full font-semibold hover:bg-sal-red/90 transition-all duration-300 inline-flex items-center gap-2;
+  }
+  .btn-secondary {
+    @apply border-2 border-sal-navy text-sal-navy px-8 py-3 rounded-full font-semibold hover:bg-sal-navy hover:text-white transition-all duration-300 inline-flex items-center gap-2;
+  }
+  .btn-white {
+    @apply border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-sal-navy transition-all duration-300 inline-flex items-center gap-2;
+  }
+}
+
+@layer utilities {
+  .gradient-navy {
+    background: linear-gradient(135deg, hsl(var(--sal-navy)), hsl(var(--sal-dark)));
+  }
+  .gradient-overlay {
+    background: linear-gradient(90deg, hsl(var(--sal-navy) / 0.85) 0%, hsl(var(--sal-navy) / 0.4) 60%, transparent 100%);
+  }
+}
