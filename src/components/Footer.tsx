@@ -6,9 +6,12 @@ const Footer = () => (
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
         {/* Col 1 */}
         <div>
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-sal-red text-2xl font-bold">+</span>
-            <span className="text-primary-foreground font-bold text-xl">SAL Hospital</span>
+          <div className="flex items-center gap-2 mb-3 bg-white p-2 rounded-xl inline-block">
+            <img 
+              src="/src/assets/sal-logo-new.png" 
+              alt="SAL Hospital" 
+              className="h-10 object-contain"
+            />
           </div>
           <p className="text-primary-foreground/60 text-sm mb-4">Healthcare With Human Touch</p>
           <div className="flex gap-3">
