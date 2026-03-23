@@ -69,7 +69,7 @@ const AnimatedSpecialities = () => {
         </div>
 
         {/* Tabs */}
-        <div className="flex items-center gap-4 border-b border-gray-200 pb-4 mb-10 overflow-x-auto no-scrollbar relative">
+        <div className="flex items-center gap-4 border-b border-gray-200 pb-4 mb-10 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] relative">
           {/* Optional arrows for scroll indication */}
           <button className="hidden md:flex absolute left-0 bg-white p-1 rounded-full shadow-md z-10">
             <ChevronLeft size={20} />

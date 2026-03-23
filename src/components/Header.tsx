@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Search, Menu, X, ChevronDown } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Search, ChevronDown, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const topNavItems = [
@@ -9,7 +9,13 @@ const topNavItems = [
   { label: "INTERNATIONAL", href: "#international" },
 ];
 
-const mainNavItems = [
+type NavItem = {
+  label: string;
+  href: string;
+  children?: string[];
+};
+
+const mainNavItems: NavItem[] = [
   {
     label: "SPECIALITIES",
     href: "#specialities",
@@ -24,88 +30,96 @@ const mainNavItems = [
 ];
 
 const Header = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 w-full pt-4 px-4 bg-transparent absolute">
-      <div className="container mx-auto">
-        <div className="bg-white rounded-xl shadow-lg flex flex-col md:flex-row overflow-hidden">
+    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'pt-2' : 'pt-6'}`}>
+      <div className="container mx-auto px-4 lg:px-8">
+        {/* Main Floating Rounded Container */}
+        <div className="bg-white rounded-[2rem] shadow-xl flex flex-col lg:flex-row items-stretch border border-gray-100 relative">
           
           {/* Logo Section (Left Panel) */}
-          <div className="hidden md:flex flex-col justify-center items-center px-8 py-4 border-r border-gray-200">
-            <img 
-              src="/src/assets/new-sal-logo.png" 
-              alt="SAL Hospital" 
-              className="h-16 object-contain"
-              onError={(e) => {
-                // Fallback to text if image not found during dev
-                e.currentTarget.style.display = 'none';
-                e.currentTarget.parentElement!.innerHTML = '<div class="text-sal-navy font-bold text-2xl flex items-center gap-1"><span class="text-sal-red">+</span>SAL</div>';
-              }}
-            />
+          <div className="flex items-center justify-between lg:border-r border-gray-200 px-6 py-4 lg:py-2 w-full lg:w-64 flex-shrink-0">
+            <a href="/" className="block">
+              <img 
+                src="/src/assets/sal-logo-new.png" 
+                alt="SAL Hospital" 
+                className="h-12 lg:h-14 w-auto object-contain"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                  e.currentTarget.parentElement!.innerHTML = '<span class="text-sal-navy font-black text-2xl tracking-tight">+ SAL</span>';
+                }}
+              />
+            </a>
+            <button
+              className="lg:hidden p-2 text-sal-navy"
+              onClick={() => setMobileOpen(!mobileOpen)}
+            >
+              {mobileOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
           </div>
 
-          {/* Right Section (Top and Bottom Rows) */}
-          <div className="flex-1 flex flex-col">
+          {/* Right Section (Nav & Search) */}
+          <div className="hidden lg:flex flex-1 flex-col">
             
-            {/* Top Row */}
-            <div className="flex items-center justify-between border-b border-gray-200 px-6 py-3">
-              <div className="hidden lg:flex items-center gap-6">
+            {/* Top Row: Utility Links & Search */}
+            <div className="flex items-center justify-between border-b border-gray-200 px-6 h-[60px]">
+              <nav className="flex items-center gap-6">
                 {topNavItems.map((item) => (
-                  <a key={item.label} href={item.href} className="text-xs font-semibold text-gray-600 hover:text-sal-red transition-colors">
+                  <a key={item.label} href={item.href} className="text-xs font-bold text-sal-navy hover:text-orange-500 transition-colors tracking-widest">
                     {item.label}
                   </a>
                 ))}
-              </div>
-              
-              <div className="flex-1 lg:flex-none flex justify-end items-center gap-2 w-full lg:w-auto">
-                <div className="relative flex items-center w-full max-w-xs">
-                  <input 
-                    type="text" 
-                    placeholder="Doctors, Specialities & more" 
-                    className="w-full text-sm py-2 px-4 pr-12 rounded-l-full border border-gray-300 focus:outline-none focus:border-sal-navy"
-                  />
-                  <button className="absolute right-0 top-0 bottom-0 bg-orange-400 hover:bg-orange-500 text-white px-4 rounded-r-full text-sm font-medium transition-colors">
-                    Search
-                  </button>
-                </div>
-                <button
-                  className="lg:hidden p-2 text-gray-700 hover:text-sal-red"
-                  onClick={() => setMobileOpen(!mobileOpen)}
-                >
-                  {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+              </nav>
+
+              <div className="flex bg-gray-50 rounded-full border border-gray-200 overflow-hidden h-9 w-[300px]">
+                <input 
+                  type="text" 
+                  placeholder="Doctors, Specialities & more" 
+                  className="bg-transparent px-4 w-full outline-none text-xs text-sal-navy placeholder:text-gray-400"
+                />
+                <button className="bg-[#FE9E15] hover:bg-[#E88A00] transition-colors text-white px-5 font-semibold text-xs flex items-center justify-center">
+                  Search
                 </button>
               </div>
             </div>
 
-            {/* Bottom Row */}
-            <div className="hidden lg:flex items-center justify-start px-2 py-1">
-              {mainNavItems.map((item) => (
-                <div
-                  key={item.label}
-                  className="relative group"
+            {/* Bottom Row: Main Navigation */}
+            <nav className="flex items-stretch h-[60px]">
+              {mainNavItems.map((item, index) => (
+                <div 
+                  key={item.label} 
+                  className={`flex-1 flex justify-center items-center relative group ${index !== mainNavItems.length - 1 ? 'border-r border-gray-200' : ''}`}
                   onMouseEnter={() => item.children && setOpenDropdown(item.label)}
                   onMouseLeave={() => setOpenDropdown(null)}
                 >
-                  <a
-                    href={item.href}
-                    className="flex items-center gap-1 px-5 py-4 text-sm font-bold text-sal-navy hover:text-sal-red transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-sal-red after:transition-all hover:after:w-full"
-                  >
+                  <a href={item.href} className="flex items-center gap-1 w-full justify-center h-full text-xs font-bold text-sal-navy hover:text-orange-500 transition-colors tracking-widest px-2">
                     {item.label}
-                    {item.children && <ChevronDown size={14} className="ml-1" />}
+                    {item.children && <ChevronDown size={14} className="ml-0.5 group-hover:rotate-180 transition-transform" />}
                   </a>
+                  
+                  {/* Dropdown for Specialities */}
                   {item.children && openDropdown === item.label && (
                     <motion.div
-                      initial={{ opacity: 0, y: 8 }}
+                      initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="absolute top-full left-0 bg-white rounded-xl shadow-xl p-4 min-w-[220px] grid gap-1 z-50 border border-gray-100"
+                      className="absolute top-full left-1/2 -translate-x-1/2 bg-white rounded-xl shadow-xl p-4 min-w-[220px] grid gap-1 z-50 border border-gray-100 mt-2"
                     >
                       {item.children.map((child) => (
                         <a
                           key={child}
                           href="#specialities"
-                          className="px-3 py-2 text-sm text-gray-700 hover:bg-sal-gray/50 hover:text-sal-red rounded-lg transition"
+                          className="px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-orange-50 hover:text-orange-500 rounded-lg transition-colors"
                         >
                           {child}
                         </a>
@@ -114,8 +128,8 @@ const Header = () => {
                   )}
                 </div>
               ))}
-            </div>
-            
+            </nav>
+
           </div>
         </div>
       </div>
@@ -127,22 +141,38 @@ const Header = () => {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="lg:hidden overflow-hidden bg-white mt-2 rounded-xl shadow-lg border border-gray-100 container mx-auto"
+            className="lg:hidden overflow-hidden bg-white shadow-xl border-t border-gray-100"
           >
-            <div className="px-4 py-2 bg-gray-50 flex items-center justify-center border-b border-gray-200">
-              <span className="text-sal-red font-bold text-xl">+</span>
-              <span className="text-sal-navy font-bold text-xl ml-1">SAL</span>
-            </div>
-            <div className="flex flex-col py-2">
+            <div className="px-6 py-6 flex flex-col gap-4 max-h-[70vh] overflow-y-auto">
+              {/* Search Mobile */}
+              <div className="flex bg-gray-50 rounded-full border border-gray-200 overflow-hidden h-10 w-full mb-2">
+                <input 
+                  type="text" 
+                  placeholder="Doctors, Specialities..." 
+                  className="bg-transparent px-4 w-full outline-none text-sm text-sal-navy"
+                />
+                <button className="bg-[#FE9E15] text-white px-4">
+                  <Search size={16} />
+                </button>
+              </div>
+
               {[...topNavItems, ...mainNavItems].map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="block px-6 py-3 text-sm font-semibold text-sal-navy hover:bg-gray-50 hover:text-sal-red transition"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  {item.label}
-                </a>
+                <div key={item.label} className="border-b border-gray-50 pb-2">
+                  <a
+                    href={item.href}
+                    className="block py-2 text-sm font-bold text-sal-navy tracking-wide"
+                    onClick={() => !item.children && setMobileOpen(false)}
+                  >
+                    {item.label}
+                  </a>
+                  {item.children && (
+                    <div className="pl-4 pb-2 flex flex-col gap-2 mt-1">
+                      {item.children.map(child => (
+                        <a key={child} href="#specialities" className="text-sm text-gray-600 font-medium" onClick={() => setMobileOpen(false)}>{child}</a>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           </motion.div>
